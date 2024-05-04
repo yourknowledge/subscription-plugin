@@ -27,5 +27,9 @@ add_action('rest_api_init', function () {
     'methods' => 'POST',
     'callback' => 'subscription_period',
   ));
+  register_rest_route('subscription', '/payment', array(
+    'methods' => 'POST',
+    'callback' => 'subscription_payment',
+  ));
 });
   
