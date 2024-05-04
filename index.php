@@ -12,15 +12,7 @@ Version: 0.0.1
 Author URI: http://github.com/kuouu
 */
 
-function subscription_order( $data ) {
-  $user_id = $data['user_id'];
-  return 'subscription order'.$user_id;
-}
-
-function subscription_period( $data ) {
-  $user_id = $data['user_id'];
-  return 'subscription period'.$user_id;
-}
+include(plugin_dir_path(__FILE__) . 'subscription/main.php');
 
 add_action('rest_api_init', function () {
   register_rest_route('subscription', '/test', array(
