@@ -16,14 +16,30 @@ function subscription_payment( $data ) {
 
     parse_str($form_data_str, $form_data);
 
+    $user_id = $form_data['CustomField1'];
+    $payment_date_str = $form_data['PaymentDate'];
+    $payment_date = strtotime($payment_date_str);
+
+    // add user as paid subscriber
+    add_user_as_paid_subscriber( $user_id, $payment_date );
+
+    // register user to TutorLMS course
+    enroll_student_to_course( $user_id, 1 ); // TODO: replace with actual course id
+
+    return "1|OK";
+}
+
+function enroll_student_to_course( $user_id, $course_id ) {
     // register user to TutorLMS course
     $wordpress_post = array(
-        'post_author' => $form_data['CustomField1'],
-        'post_parent' => 9, // TODO: replace with actual course id
+        'post_author' => $user_id,
+        'post_parent' => $course_id,
         'post_status' => 'completed',
         'post_type' => 'tutor_enrolled',
     );
     wp_insert_post($wordpress_post);
+}
 
-    return "1|OK";
+function add_user_as_paid_subscriber( $user_id, $payment_date ) {
+    update_user_meta( $user_id, 'subscribe_date', $payment_date );
 }
