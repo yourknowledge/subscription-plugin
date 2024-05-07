@@ -2,6 +2,9 @@
 
 include(plugin_dir_path(__FILE__) . 'tutor.php');
 
+// TODO: replace with actual course id
+$subscription_courses = array(8, 9);
+
 function subscription_order( $data ) {
     $user_id = $data['user_id'];
     return 'subscription order: '.$user_id;
@@ -26,8 +29,9 @@ function subscription_payment( $data ) {
     add_user_as_paid_subscriber( $user_id, $payment_date );
 
     // register user to TutorLMS course
-    enroll_student_to_course( $user_id, 8 ); // TODO: replace with actual course id
-    enroll_student_to_course( $user_id, 9 ); // TODO: replace with actual course id
+    for ($subscription_courses as $course_id) {
+        enroll_student_to_course( $user_id, $course_id );
+    }
 
     return "1|OK";
 }
@@ -46,8 +50,7 @@ function subscription_check() {
 
     // unenroll users from TutorLMS course
     foreach ($subscribe_users as $user) {
-        // TODO: replace with actual course id
-        unenroll_student_from_course( $user->ID, 8 );
-        unenroll_student_from_course( $user->ID, 9 );
+        foreach ($subscription_courses as $course_id) {
+            unenroll_student_from_course( $user->ID, $course_id );
     }
 }
