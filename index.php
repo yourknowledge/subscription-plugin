@@ -31,5 +31,10 @@ add_action('rest_api_init', function () {
     'methods' => 'POST',
     'callback' => 'subscription_payment',
   ));
+  // TODO: add a cron job to handle this instead of a REST API
+  register_rest_route('subscription', '/check', array(
+    'methods' => 'POST',
+    'callback' => 'subscription_check',
+  ));
 });
   
