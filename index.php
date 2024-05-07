@@ -12,7 +12,7 @@ Version: 0.0.1
 Author URI: http://github.com/kuouu
 */
 
-include(plugin_dir_path(__FILE__) . 'subscription/main.php');
+include(plugin_dir_path(__FILE__) . 'subscription.php');
 
 add_action('rest_api_init', function () {
   register_rest_route('subscription', '/test', array(
